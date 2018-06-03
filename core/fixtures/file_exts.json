@@ -1,0 +1,170 @@
+[
+{
+  "model": "core.fileext",
+  "pk": 1,
+  "fields": {
+    "file_ext": ".jpg",
+    "file_type": "Image"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 2,
+  "fields": {
+    "file_ext": ".jpeg",
+    "file_type": "Image"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 3,
+  "fields": {
+    "file_ext": ".png",
+    "file_type": "Image"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 4,
+  "fields": {
+    "file_ext": ".bmp",
+    "file_type": "Image"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 5,
+  "fields": {
+    "file_ext": ".gif",
+    "file_type": "Image"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 6,
+  "fields": {
+    "file_ext": ".tiff",
+    "file_type": "Image"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 7,
+  "fields": {
+    "file_ext": ".mp3",
+    "file_type": "Audio"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 8,
+  "fields": {
+    "file_ext": ".wma",
+    "file_type": "Audio"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 9,
+  "fields": {
+    "file_ext": ".aac",
+    "file_type": "Audio"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 10,
+  "fields": {
+    "file_ext": ".m4a",
+    "file_type": "Audio"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 11,
+  "fields": {
+    "file_ext": ".wav",
+    "file_type": "Audio"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 12,
+  "fields": {
+    "file_ext": ".ogg",
+    "file_type": "Audio"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 13,
+  "fields": {
+    "file_ext": ".mp4",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 14,
+  "fields": {
+    "file_ext": ".wmv",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 15,
+  "fields": {
+    "file_ext": ".mov",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 16,
+  "fields": {
+    "file_ext": ".mkv",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 17,
+  "fields": {
+    "file_ext": ".avi",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 18,
+  "fields": {
+    "file_ext": ".3gp",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 19,
+  "fields": {
+    "file_ext": ".flv",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 20,
+  "fields": {
+    "file_ext": ".rm",
+    "file_type": "Video"
+  }
+},
+{
+  "model": "core.fileext",
+  "pk": 21,
+  "fields": {
+    "file_ext": ".rmvb",
+    "file_type": "Video"
+  }
+}
+]
