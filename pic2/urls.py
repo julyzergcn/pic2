@@ -20,5 +20,6 @@ from core.views import static_serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', admin.site.urls),
     re_path(r'^s/$', static_serve, name='static_serve'),
 ]

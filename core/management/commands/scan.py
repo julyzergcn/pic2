@@ -11,6 +11,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('dir')
+        parser.add_argument('--new', action='store_true', dest='new_copy')
 
     def handle(self, **options):
         if not os.path.exists(options['dir']):
@@ -29,11 +30,16 @@ class Command(BaseCommand):
                 full_path = os.path.join(dir_name, file_name)
 
                 if os.path.splitext(file_name)[-1].lower() not in file_exts:
-                    print('***', full_path)
+                    print('**', full_path)
                     continue
                 else:
-                    print('---', full_path)
+                    print('--', full_path)
 
-                file_size = get_file_size(full_path)
-                file_hash = get_file_hash(full_path)
-                models.FileScan.add_scan(computer_name, dir_name, file_name, file_size, file_hash)
+                file_exist = models.File.objects.filter(file_dir=dir_name, file_name=file_name).exists()
+
+                if file_exist and not options['new_copy']:
+                    continue
+                else:
+                    file_size = get_file_size(full_path)
+                    file_hash = get_file_hash(full_path)
+                    models.FileScan.add_scan(computer_name, dir_name, file_name, file_size, file_hash)
