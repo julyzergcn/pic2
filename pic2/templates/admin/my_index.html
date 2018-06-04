@@ -16,7 +16,7 @@
             {% if model.admin_url %}
                 <th scope="row">
 									<a href="{{ model.admin_url }}">{{ model.name }}</a>
-									{% if model.name == 'Files' %}
+									{% if model.name == 'Files' or model.name == 'File hashs' %}
 										<a href="{{ model.admin_url }}?layout=new">(New Layout)</a>
 									{% endif %}
 								</th>

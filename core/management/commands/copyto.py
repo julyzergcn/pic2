@@ -27,7 +27,7 @@ class Command(BaseCommand):
             except IndexError:
                 continue
 
-            to_file_dir = os.path.join(to_dir, *file.file_dir.split('/')[-3:])
+            to_file_dir = os.path.join(to_dir, *file.file_dir.split('/')[1:])
 
             if not os.path.exists(to_file_dir):
                 os.makedirs(to_file_dir, exist_ok=True)

@@ -16,3 +16,21 @@
 
   {% if action_form and actions_on_bottom and cl.show_admin_actions %}{% admin_actions %}{% endif %}
 {% endblock %}
+
+{% block extrahead %}
+	{{ block.super }}
+	<script>
+		(function($){
+			$(function(){
+				$('#changelist-filter')
+				.find('h3, ul').hide()
+				.end()
+				.hover(function(){
+					$(this).find('h3, ul').show();
+				}, function(){
+					$(this).find('h3, ul').hide();
+				});
+			});
+		})(django.jQuery);
+	</script>
+{% endblock %}

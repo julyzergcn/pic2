@@ -12,7 +12,7 @@ def create_file_tag(obj):
     if isinstance(obj, File):
         return mark_safe(_create_file_tag(obj, link=True, name=True))
     elif isinstance(obj, FileHash):
-        html = '<div style="border:1px solid #ccc;float:left;margin:4px 5px">'
+        html = '<div style="border:2px solid #aaa;float:left;margin:4px 5px">'
         for _file in obj.files.all():
             html += _create_file_tag(_file, link=True, name=True)
         html += '<div style="clear:both"></div></div>'
