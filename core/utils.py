@@ -3,6 +3,8 @@ import socket
 import hashlib
 import shutil
 
+from django.urls import reverse
+
 
 def get_computer_name():
     return socket.gethostname()
@@ -33,3 +35,26 @@ def copy_file(_from, _to):
                 return _to
 
     return shutil.copy2(_from, _to)
+
+
+def create_file_tag(file_obj, link=True, name=False, height=57):
+    file_url = '{url}?p={dir}/{file_name}'.format(
+        url=reverse('static_serve'),
+        dir=file_obj.file_dir,
+        file_name=file_obj.file_name,
+    )
+
+    if file_obj.file_type == 'Image':
+        tag = '<img src="{url}" style="height:{height}px" />'.format(url=file_url, height=height)
+    elif file_obj.file_type == 'Video':
+        tag = '<video src="{url}" height="{height}" poster></video>'.format(url=file_url, height=height)
+    else:
+        tag = '<span style="font-size:23px">{}</span>'.format(file_obj.file_type)
+
+    if name:
+        tag += '<br><span style="font-size:9px">{}</span>'.format(file_obj.file_name[-20:])
+
+    if link:
+        tag = '<a href="{url}" target="_blank" style="display:block;float:left;margin:2px">{tag}</a>'.format(
+            url=file_url, tag=tag)
+    return tag

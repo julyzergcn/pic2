@@ -18,8 +18,10 @@ from django.urls import path, re_path
 
 from core.views import static_serve
 
+
+admin.site.index_template = 'admin/my_index.html'
+
 urlpatterns = [
-    # path('admin/', admin.site.urls),
     path('', admin.site.urls),
     re_path(r'^s/$', static_serve, name='static_serve'),
 ]

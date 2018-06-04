@@ -1,30 +1,10 @@
 from django.contrib import admin
-from django.urls import reverse
+from django.shortcuts import redirect
 from django.utils.safestring import mark_safe
+from django.db.models import Count
 
 from core import models
-
-
-def create_file_tag(file_obj, link=True, name=False):
-    file_url = '{url}?p={dir}/{file_name}'.format(
-        url=reverse('static_serve'),
-        dir=file_obj.file_dir,
-        file_name=file_obj.file_name,
-    )
-
-    if file_obj.file_type == 'Image':
-        tag = '<img src="{url}" style="height:{height}px" />'.format(url=file_url, height=53)
-    elif file_obj.file_type == 'Video':
-        tag = '<video src="{url}" height="{height}" poster></video>'.format(url=file_url, height=53)
-    else:
-        tag = '<span style="font-size:23px">{}</span>'.format(file_obj.file_type)
-
-    if name:
-        tag += '<br><span style="font-size:9px">{}</span>'.format(file_obj.file_name[-20:])
-
-    if link:
-        tag = '<a href="{url}" target="_blank" style="display:block;float:left;margin-left:2px">{tag}</a>'.format(url=file_url, tag=tag)
-    return tag
+from core.utils import create_file_tag
 
 
 class FileScanInline(admin.TabularInline):
@@ -33,11 +13,32 @@ class FileScanInline(admin.TabularInline):
     readonly_fields = ('scan_date', 'file_exist', 'file_size', 'file_hash')
 
 
+class NewChangeListMixin:
+    def get_changelist(self, request, **kwargs):
+        ChangeList = super().get_changelist(request, **kwargs)
+        class NewChangeList(ChangeList):
+            def get_filters_params(self2, params=None):
+                new_params = super().get_filters_params(params)
+                if 'layout' in new_params:
+                    del new_params['layout']
+                return new_params
+        return NewChangeList
+
+    def changelist_view(self, request, extra_context=None):
+        if request.GET.get('layout') == 'default':
+            return redirect(request.path)
+        response = super().changelist_view(request, extra_context)
+        if request.GET.get('layout') == 'new':
+            response.template_name = 'admin/core/change_list_new_layout.html'
+        return response
+
+
 @admin.register(models.File)
-class FileAdmin(admin.ModelAdmin):
+class FileAdmin(NewChangeListMixin, admin.ModelAdmin):
     list_display = ('file_tag', 'file_name', 'file_dir', 'computer_name', 'file_exist', 'file_size')
     list_display_links = ('file_name',)
     list_filter = ('file_exist', 'computer_name')
+    search_fields = ('file_dir', 'file_name')
     inlines = (FileScanInline,)
 
     def file_tag(self, obj):
@@ -55,10 +56,35 @@ class FileCopyInline(admin.TabularInline):
     readonly_fields = ('copy_date', 'from_file', 'to_file')
 
 
+class HasFilesFilter(admin.SimpleListFilter):
+    title = 'Has Files'
+    parameter_name = 'has_files'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('more_than_one', '>1'),
+            ('only_one', '=1'),
+            ('at_least_one', '>=1'),
+            ('zero', '=0'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'more_than_one':
+            return queryset.annotate(files_count=Count('files')).filter(files_count__gt=1)
+        elif self.value() == 'only_one':
+            return queryset.annotate(files_count=Count('files')).filter(files_count=1)
+        elif self.value() == 'at_least_one':
+            return queryset.annotate(files_count=Count('files')).filter(files_count__gte=1)
+        elif self.value() == 'zero':
+            return queryset.annotate(files_count=Count('files')).filter(files_count=0)
+        return queryset
+
+
 @admin.register(models.FileHash)
-class FileHashAdmin(admin.ModelAdmin):
+class FileHashAdmin(NewChangeListMixin, admin.ModelAdmin):
     list_display = ('file_tags', 'file_hash')
     list_display_links = ('file_hash',)
+    list_filter = (HasFilesFilter,)
     search_fields = ('file_hash',)
     inlines = (FileCopyInline,)
 

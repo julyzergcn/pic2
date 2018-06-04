@@ -1,0 +1,18 @@
+{% extends "admin/change_list.html" %}
+{% load admin_list core_tags %}
+
+{% block object-tools-items %}
+	<li><a href="{{ request.path }}?{{ request.GET.urlencode }}&layout=default">Default Layout</a></li>
+	{{ block.super }}
+{% endblock %}
+
+{% block result_list %}
+	{% if action_form and actions_on_top and cl.show_admin_actions %}{% admin_actions %}{% endif %}
+
+	{% for result in cl.result_list %}
+		{% create_file_tag result %}
+	{% endfor %}
+	<div style="clear:both"></div>
+
+  {% if action_form and actions_on_bottom and cl.show_admin_actions %}{% admin_actions %}{% endif %}
+{% endblock %}
