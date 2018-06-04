@@ -37,30 +37,6 @@ class FileScan(models.Model):
     file_size = models.PositiveIntegerField(default=0)
     file_hash = models.CharField(max_length=32, blank=True)
 
-    @classmethod
-    def add_scan(cls, computer_name, file_dir, file_name, file_size, file_hash, file_exist=True):
-        file_hash_obj,c = FileHash.objects.get_or_create(file_hash=file_hash)
-
-        kwargs = dict(computer_name=computer_name,
-                      file_dir=file_dir,
-                      file_name=file_name)
-
-        try:
-            file = File.objects.filter(**kwargs)[0]
-        except IndexError:
-            file = File(**kwargs)
-
-        file.file_exist = file_exist
-        file.file_size = file_size
-        file.file_hash_obj = file_hash_obj
-        file.save()
-
-        file_scan = FileScan(file=file)
-        file_scan.file_exist = file_exist
-        file_scan.file_size = file_size
-        file_scan.file_hash = file_hash
-        file_scan.save()
-
     def __str__(self):
         return '{}'.format(self.pk)
 
